@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class QuickUnion {
+public class SuperBasicQuickUnion{
     private int[] id;
 
     public QuickUnion(int size){
@@ -32,7 +32,7 @@ public class QuickUnion {
     }
 
     public void union(int p, int q){
-        id[p]=q;
+        id[getRoot(p)]=q;
     }
 
 }
