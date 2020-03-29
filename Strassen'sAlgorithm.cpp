@@ -1,8 +1,10 @@
 #include<iostream>
 
 using namespace std;
-int maxSize=10;//value can be changed depending on the need
 
+//addition of 2 matrices,
+//multiplier can be either 1 or -1
+//and makes subtraction possible
 int **add(int **A, int **B, int n, int multiplier){
     int **R;
     R = new int *[n];
@@ -15,13 +17,16 @@ int **add(int **A, int **B, int n, int multiplier){
     return R;
 }
 
+//function multiplying two matrices - the point of this code
 int **multiply(int **A, int **B, int n){
-    //I'm not sure about this part
+    //base case - when the matrix is 1x1
     if(n<=1){
         A[0][0]*=B[0][0];
         return A;
     }
 
+    //step 1 which should take O(1) time
+    //here it's O(n^2) but it doesn't actually affect the overall complexity which is still O(n^[lg7])
     int **A11, **A12, **A21, **A22, **B11, **B12, **B21, **B22;
     A11=new int *[n/2];
     A12=new int *[n/2];
@@ -59,7 +64,7 @@ int **multiply(int **A, int **B, int n){
             B22[i][j]=B[n/2+i][n/2+j];
         }
     }
-    //step1 - O(n^2) time complexity
+    //step2 - O(n^2) time complexity
     int **S1 = add(B12, B22, n/2, -1);
     int **S2 = add(A11, A12, n/2, 1);
     int **S3 = add(A21, A22, n/2, 1);
@@ -71,7 +76,7 @@ int **multiply(int **A, int **B, int n){
     int **S9 = add(A11, A21, n/2, -1);
     int **S10 = add(B11, B12, n/2, 1);
 
-    //step2 T(n) = 7*T(n/2)
+    //step3 T(n) = 7*T(n/2)
     int **P1 = multiply(A11, S1, n/2);
     int **P2 = multiply(S2, B22, n/2);
     int **P3 = multiply(S3, B11, n/2);
@@ -91,6 +96,7 @@ int **multiply(int **A, int **B, int n){
     A12 = add(P3, P7, n/2, 1);
     int **C22 = add(A11, A12, n/2, -1);
 
+    //That's actually step 1 again
     for(int i=0; i<n/2; i++){
         for(int j=0; j<n/2; j++){
             A[i][j]=C11[i][j];
@@ -110,11 +116,10 @@ int **multiply(int **A, int **B, int n){
     return A;
 }
 
-
+//that's here to allow me check the correctness of the function above
 int main(){
     int n, a;
     cin>>n;
-    //setting matrices
     int **A, **B, **C;
     A = new int *[n];
     B = new int *[n];
