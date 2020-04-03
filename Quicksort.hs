@@ -13,3 +13,21 @@ quicktros (x:xs) = quicktros greater ++ [x] ++ quicktros smaller
                 where
                     smaller = [a | a <- xs, a <= x]
                     greater = [a | a <- xs, a > x]
+
+--merge sort (only increasing order)
+merge :: Ord a => [a] -> [a] -> [a]
+merge xs ys
+    | null xs = ys
+    | null ys = xs
+    | head xs > head ys = (head ys):(merge xs (tail ys))
+    | otherwise = (head xs):(merge ys (tail xs))
+
+halve :: [a] -> ([a],[a])
+halve xs = (take half xs, drop half xs)
+    where half = div (length xs) 2
+
+mergeSort :: Ord a => [a] -> [a]
+mergeSort [] = []
+mergeSort (x:[]) = [x]
+mergeSort xs = merge (mergeSort x1) (mergeSort x2)
+    where  (x1, x2) = (halve xs) 
