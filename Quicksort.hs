@@ -31,3 +31,11 @@ mergeSort [] = []
 mergeSort (x:[]) = [x]
 mergeSort xs = merge (mergeSort x1) (mergeSort x2)
     where  (x1, x2) = (halve xs) 
+
+--Selection sort, again, only increasing, probably could be done with just 2 traverses 
+selectionSort :: Ord a => [a] -> [a]
+selectionSort [] = [];
+selectionSort (x:[]) = [x]
+selectionSort xs = ys ++ selectionSort[x | x <- xs, x /= m]
+    where   m = minimum xs
+            ys = [y | y<-xs, y == m]
