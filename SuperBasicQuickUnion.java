@@ -11,7 +11,7 @@ public class SuperBasicQuickUnion{
     }
 
     public int getRoot(int p){
-        ArrayList<Ineger> visited = new ArrayList<Integer>();
+        ArrayList<Integer> visited = new ArrayList<Integer>();
         while(id[p] != p){
             visited.add(p);
             p=id[p];
